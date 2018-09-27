@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
             raiseError(Joomla.JText._('MOD_GCOMMENTS_CAPTCHA_VALIDATION_ERROR'));
         }
     });
+
+    jQuery('.gcomment-delete').on('click', function() {
+        deleteComment(jQuery(this).data('comment'));
+    });
 });
 
 function checkCaptcha() {
@@ -73,6 +77,25 @@ function submitComment(form) {
                 addMessage(data.data);
             } else {
                 raiseError(data.message);
+            }
+        }
+    });
+}
+
+function deleteComment(id) {
+    jQuery.ajax({
+        data: {
+            comment_id: id
+        },
+        type: 'POST',
+        url: '/index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
+        dataType: 'json',
+        success: function(data) {
+            if (data.success === true) {
+                jQuery('[data-comment-block="' + id +'"]').toggle();
+            } else {
+                console.log(data);
+                alert(data.message);
             }
         }
     });
