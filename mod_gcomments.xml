@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" client="site" method="upgrade">
+	<name>mod_gcomments</name>
+	<author>Alex White</author>
+	<creationDate>24 September 2018</creationDate>
+	<copyright>All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<authorEmail>joomla@geqo.ru</authorEmail>
+	<authorUrl>https://geqo.ru/joomla</authorUrl>
+	<version>0.7.2</version>
+	<description>mod_gcomments_description</description>
+	<files>
+		<filename module="mod_gcomments">mod_gcomments.php</filename>
+		<folder>sql</folder>
+		<folder>tmpl</folder>
+		<folder>layouts</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_gcomments.xml</filename>
+	</files>
+	<media destination="mod_gcomments">
+		<folder>assets/js</folder>
+		<folder>assets/css</folder>
+	</media>
+	<languages>
+		<language tag="en-GB">lang/en-GB.mod_gcomments.ini</language>
+		<language tag="en-GB">lang/en-GB.mod_gcomments.sys.ini</language>
+		<language tag="ru-RU">lang/ru-RU.mod_gcomments.ini</language>
+		<language tag="ru-RU">lang/ru-RU.mod_gcomments.sys.ini</language>
+	</languages>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="comments-limit"
+						type="integer"
+						default="10"
+						first="10"
+						last="100"
+						step="10"
+						label="MOD_GCOMMENTS_LIMIT_LABEL"
+						description="MOD_GCOMMENTS_LIMIT_DESCRIPTION"
+				/>
+			</fieldset>
+			<fieldset name="captcha" label="MOD_GCOMMENTS_CAPTCHA_KEYS_LABEL" description="MOD_GCOMMENTS_CAPTCHA_KEYS_DESCRIPTION">
+				<field
+						name="show-captcha"
+						type="radio"
+						default="1"
+						label="MOD_GCOMMENTS_RENDER_CAPTCHA_LABEL"
+						description="MOD_GCOMMENTS_RENDER_CAPTCHA_DESCRIPTION"
+						class="btn-group btn-group-yesno"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="public-key"
+						type="text"
+						label="MOD_GCOMMENTS_CAPTCHA_PUBLIC_LABEL"
+						description="MOD_GCOMMENTS_CAPTCHA_PUBLIC_DESCRIPTION"
+				/>
+				<field
+						name="secret-key"
+						type="text"
+						label="MOD_GCOMMENTS_CAPTCHA_SECRET_LABEL"
+						description="MOD_GCOMMENTS_CAPTCHA_SECRET_DESCRIPTION"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="ModGcomments update server">https://geqo.ru/joomla/mod_gcomments/updates/gcomments.xml</server>
+	</updateservers>
+</extension>
