@@ -13,9 +13,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 defined('_JEXEC') or die;
+
+HTMLHelper::stylesheet(Uri::base() . '/media/mod_gcomments/css/gcomments.css');
+HTMLHelper::script(Uri::base() . '/media/mod_gcomments/js/gcomments.js');
+
+if ($captcha === 1) {
+	HTMLHelper::script('https://www.google.com/recaptcha/api.js');
+}
+
 ?>
 
 <div class="gcomments">

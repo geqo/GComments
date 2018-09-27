@@ -14,7 +14,6 @@
 */
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 
 defined('_JEXEC') or die;
@@ -60,13 +59,6 @@ if (! $pub_key || ! $sec_key) {
 	$captcha === 0;
 }
 
-$document = Factory::getDocument();
-$document->addStyleSheet('/media/mod_gcomments/assets/css/gcomments.css');
-$document->addScript('/media/mod_gcomments/assets/js/gcomments.js');
-
-if ($captcha === 1) {
-	$document->addScript('https://www.google.com/recaptcha/api.js');
-}
 /* Will be used with plugin in future
 $renderMessageIfDisabled = ($params->get('show-tpl', 1) === '1') ? true : false;
 $isCommentsDisabled = $attribs['disabled'];
