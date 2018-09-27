@@ -147,9 +147,9 @@ class ModGCommentsHelper
 		$user  = Factory::getUser();
 		$input = $app->input;
 		$data  = [
-			'gusername' => $user->guest ? $input->get('gusername', '', 'safehtml') : $user->username,
-			'gemail'    => $user->guest ? $input->get('gemail', '', 'safehtml') : $user->email,
-			'gtext'     => $input->get('gtext', '', 'safehtml'),
+			'gusername' => $user->guest ? trim($input->get('gusername', '', 'safehtml')) : $user->username,
+			'gemail'    => $user->guest ? trim($input->get('gemail', '', 'safehtml')) : $user->email,
+			'gtext'     => trim($input->get('gtext', '', 'safehtml')),
 			'context'   => $input->get('context', '', 'cmd'),
 			'item_id'   => $input->get('item_id', '', 'int'),
 		];
