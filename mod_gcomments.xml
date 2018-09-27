@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>joomla@geqo.ru</authorEmail>
 	<authorUrl>https://geqo.ru/joomla</authorUrl>
-	<version>0.8.8</version>
+	<version>0.8.10</version>
 	<description>mod_gcomments_description</description>
 	<files>
 		<filename module="mod_gcomments">mod_gcomments.php</filename>
@@ -18,9 +18,9 @@
 		<filename>index.html</filename>
 		<filename>mod_gcomments.xml</filename>
 	</files>
-	<media destination="mod_gcomments">
-		<folder>assets/js</folder>
-		<folder>assets/css</folder>
+	<media destination="mod_gcomments" folder="assets">
+		<folder>js</folder>
+		<folder>css</folder>
 	</media>
 	<languages>
 		<language tag="en-GB">lang/en-GB.mod_gcomments.ini</language>
