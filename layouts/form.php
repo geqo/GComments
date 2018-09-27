@@ -66,7 +66,9 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
             </div>
             <input type="hidden" name="context" value="<?php echo $context; ?>">
             <input type="hidden" name="item_id" value="<?php echo $item_id; ?>">
-            <div id="recaptcha"></div>
+            <?php if ($captcha === 1) : ?>
+                <div id="recaptcha"></div>
+            <?php endif; ?>
             <button id="gsubmit" type="submit"><?php echo Text::_('JSUBMIT'); ?></button>
         </form>
     </div>
