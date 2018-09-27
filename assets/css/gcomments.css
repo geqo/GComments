@@ -38,9 +38,33 @@
 .gcomments-form {
     margin-top: 15px;
 }
+#gcomments-form {
+    margin: 0;
+}
 .gerror {
     display: none;
     padding: 15px;
     padding-bottom: 0;
     color: #B94A48;
+}
+.glabel {
+    display: block;
+}
+#gtext {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    margin: 0;
+}
+.ginput-block > input {
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+#recaptcha {
+    margin-top: 15px;
+}
+#gsubmit {
+    padding: 10px 15px;
+    margin-top: 15px;
 }

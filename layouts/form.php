@@ -14,7 +14,6 @@
 */
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
@@ -24,13 +23,19 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
 
 <div class="gcomment gcomments-form">
     <div class="gcomment-head">
-		<?php echo Text::_('MOD_GCOMMENTS_ADD_COMMENT'); ?>
+		<?php
+		if ($module->showtitle) {
+			echo $module->title;
+		} else {
+			echo Text::_('MOD_GCOMMENTS_ADD_COMMENT');
+		}
+		?>
     </div>
     <div class="gerror"></div>
     <div class="gcomment-body">
-        <form action="<?php echo Route::_('index.php?option=com_ajax&format=json&module=gcomments&method=addComment') ?>" method="post" id="gcomments-form">
-            <div class="control-group">
-                <label for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
+        <form action="index.php?option=com_ajax&format=json&module=gcomments&method=addComment" method="post" id="gcomments-form">
+            <div class="control-group ginput-block">
+                <label class="glabel " for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
                 <input
                         id="gusername"
                         type="text"
@@ -42,8 +47,8 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
                         class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
             </div>
-            <div class="control-group">
-                <label for="gemail"><?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?></label>
+            <div class="control-group ginput-block">
+                <label class="glabel " for="gemail"><?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?></label>
                 <input
                         id="gemail"
                         type="email"
@@ -55,8 +60,8 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
                         class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
             </div>
-            <div class="control-group">
-                <label for="gtext"><?php echo Text::_('MOD_GCOMMENTS_TEXT_LABEL'); ?></label>
+            <div class="control-group ginput-block">
+                <label class="glabel " for="gtext"><?php echo Text::_('MOD_GCOMMENTS_TEXT_LABEL'); ?></label>
                 <textarea name="gtext" id="gtext" cols="30" rows="10"></textarea>
             </div>
             <input type="hidden" name="context" value="<?php echo $context; ?>">
