@@ -74,6 +74,46 @@ class ModGCommentsHelper
 	}
 
 	/**
+	 *
+	 * @return bool
+	 *
+	 * @since 0.8.2
+	 * @throws Exception
+	 */
+	public static function removeCommentAjax()
+	{
+		$user = Factory::getUser();
+		$input = Factory::getApplication()->input;
+		$id = (int) $input->getInt('comment_id', 0);
+
+		if (
+			$user->guest ||
+			! in_array(8, $user->groups) ||
+			$id === 0
+		) {
+			throw new Exception('Access denied!');
+		}
+
+		return self::removeComment($id);
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return bool
+	 *
+	 * @since 0.8.2
+	 */
+	private static function removeComment($id)
+	{
+		$db = Factory::getDbo();
+		$comment = new stdClass();
+		$comment->id = $id;
+		$comment->deleted = 1;
+		return $db->updateObject('#__gcomments_comments',$comment, 'id');
+	}
+
+	/**
 	 * Get total comments count for item
 	 *
 	 * @param string $context example:com_content.article

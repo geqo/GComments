@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 <div class="gcomments">
 	<?php if (isset($comments) || $comments)  : ?>
 		<?php foreach ($comments as $key => $comment) : ?>
-            <div class="gcomment">
+            <div class="gcomment" data-comment-block="<?php echo $comment['id'] ?>">
                 <div class="gcomment-head">
                 <span class="gcomment-username">
                     <?php echo $comment['user_name']; ?>
@@ -33,6 +33,11 @@ defined('_JEXEC') or die;
                 <div class="gcomment-body">
 					<?php echo $comment['text']; ?>
                 </div>
+				<?php if ($user->get('isRoot')) : ?>
+                    <div class="gcomment-action">
+                        <button class="gcomment-delete" data-comment="<?php echo $comment['id']; ?>"><?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?></button>
+                    </div>
+				<?php endif; ?>
             </div>
 		<?php endforeach; ?>
 	<?php endif; ?>
