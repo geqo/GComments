@@ -29,7 +29,18 @@ $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 
 if ($option !== 'com_content' && $view !== 'article') {
-	return;
+	// If module was rendered not by default way, you need to provide two variables
+	// context - com_content.article (example)
+	// id - item id
+	if (isset($attribs['context'])) {
+		$context  = $attribs['context'];
+	}
+	if (isset($attribs['id'])) {
+		$item_id  = $attribs['id'];
+	}
+	if ($context === '') {
+		return;
+	}
 } else {
 	$context = 'com_content.article';
 }
