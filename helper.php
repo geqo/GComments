@@ -60,7 +60,10 @@ class ModGCommentsHelper
 
 		$query = $db->getQuery(true);
 		$query
-			->select('*')
+			->select($db->qn([
+			    'user_name', 'id', 'text'
+            ]))
+            ->select('DATE_FORMAT(`creation_date`, "%d.%m.%Y, %H:%i") as creation_date')
 			->from($db->qn('#__gcomments_comments'))
 			->where($db->qn('context') . ' = ' . $db->q($context))
 			->where($db->qn('bind_id') . ' = ' . $db->q($id))
