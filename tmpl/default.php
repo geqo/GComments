@@ -46,7 +46,7 @@ if ($captcha === 1) {
                 </div>
 				<?php if ($user->get('isRoot')) : ?>
                     <div class="gcomment-action">
-                        <button class="gcomment-delete" data-comment="<?php echo $comment['id']; ?>"><?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?></button>
+                        <button class="gcomment-delete" onclick="deleteComment(this.dataset.comment)" data-comment="<?php echo $comment['id']; ?>"><?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?></button>
                     </div>
 				<?php endif; ?>
             </div>
@@ -68,9 +68,11 @@ if ($formLayout !== 'none') {
 
 <script>
     var limit = <?php echo $limit; ?>,
-        itemId = <?php echo $item_id; ?>,
+        itemId = '<?php echo $item_id; ?>',
         context = '<?php echo $context; ?>',
         start = <?php echo ($start + $limit); ?>,
         total = <?php echo $total; ?>,
-        pubKey = '<?php echo $pub_key ?>';
+        pubKey = '<?php echo $pub_key ?>',
+        deleteButton = '<?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?>';
+        isAdmin = <?php echo $user->get('isRoot') ? 'true' : 'false' ?>;
 </script>
