@@ -68,7 +68,7 @@ if ($formLayout !== 'none') {
 
 <script>
     var limit = <?php echo $limit; ?>,
-        itemId = <?php echo $item_id; ?>,
+        itemId = '<?php echo $item_id; ?>',
         context = '<?php echo $context; ?>',
         start = <?php echo ($start + $limit); ?>,
         total = <?php echo $total; ?>,
