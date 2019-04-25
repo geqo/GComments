@@ -45,7 +45,7 @@ if ($option !== 'com_content' && $view !== 'article') {
 	$context = 'com_content.article';
 }
 
-$item_id  = (int) $input->get('id', 0);
+$item_id  = (int) $item_id ? : $input->get('id', 0);
 $start    = 0;
 $captcha  = (int) $params->get('show-captcha', 1);
 $pub_key  = '';
@@ -60,21 +60,8 @@ if (! $pub_key || ! $sec_key) {
 	$captcha === 0;
 }
 
-/* Will be used with plugin in future
-$renderMessageIfDisabled = ($params->get('show-tpl', 1) === '1') ? true : false;
-$isCommentsDisabled = $attribs['disabled'];
-*/
-
 $formLayout = 'form';
 
-/* Same
-if ($isCommentsDisabled) {
-	$formLayout = 'none';
-	if ($renderMessageIfDisabled) {
-		$formLayout = 'disabled';
-	}
-}
-*/
 $comments = ModGCommentsHelper::getComments($context, $item_id, $start, $limit);
 $total    = ModGCommentsHelper::getTotal($context, $item_id);
 
