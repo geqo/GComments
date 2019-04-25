@@ -39,10 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             raiseError(Joomla.JText._('MOD_GCOMMENTS_CAPTCHA_VALIDATION_ERROR'));
         }
     });
-
-    jQuery('.gcomment-delete').on('click', function() {
-        deleteComment(jQuery(this).data('comment'));
-    });
 });
 
 function checkCaptcha() {
@@ -140,7 +136,7 @@ function makeComments(data) {
     });
     jQuery.each(messages, function(index, value) {
         jQuery('.gcomments').append(
-            '<div class="gcomment">' +
+            '<div class="gcomment" data-comment-block="' + value.id + '">' +
             '<div class="gcomment-head">' +
             '<span class="gcomment-username">' +
             value.user_name +
@@ -151,7 +147,7 @@ function makeComments(data) {
             '</div>' +
             '<div class="gcomment-body">' +
             value.text +
-            '</div>' +
+            '</div>' + getAction(value.id) +
             '</div>'
         );
     })
@@ -176,4 +172,13 @@ function getBlock(data) {
         data.text +
         '</div>' +
         '</div>';
+}
+
+function getAction(id) {
+    if (isAdmin) {
+        return '<div class="gcomment-action">' +
+            '<button class="gcomment-delete" onclick="deleteComment(this.dataset.comment)" data-comment="' + id + '">' + deleteButton + '</button>' +
+            '</div>';
+    }
+    return '';
 }

@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>joomla@geqo.ru</authorEmail>
 	<authorUrl>https://geqo.ru/joomla</authorUrl>
-	<version>0.8.11</version>
+	<version>0.8.12</version>
 	<description>mod_gcomments_description</description>
 	<files>
 		<filename module="mod_gcomments">mod_gcomments.php</filename>
