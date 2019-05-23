@@ -15,6 +15,7 @@
 */
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
@@ -34,7 +35,7 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
     </div>
     <div class="gerror"></div>
     <div class="gcomment-body">
-        <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" method="post" id="gcomments-form">
+        <form action="<?php echo Route::_('index.php?option=com_ajax&format=json&module=gcomments&method=addComment') ?>" method="post" id="gcomments-form">
             <div class="control-group ginput-block">
                 <label class="glabel " for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
                 <input
