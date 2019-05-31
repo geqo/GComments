@@ -31,43 +31,43 @@ $moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_
     </div>
     <div class="gerror"></div>
     <div class="gcomment-body">
-        <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" class="gcomments-form">
+        <form action="index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" id="gcomments-form">
             <div class="control-group ginput-block">
                 <label class="glabel " for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
                 <input
-                        class="gusername"
+                        id="gusername"
                         type="text"
                         name="gusername"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?>"
 					<?php echo (! $user->guest ? 'value="' . $user->username . '"' :''); ?>
 					<?php echo (! $user->guest ? 'disabled="disabled"' :''); ?>
                         required="required"
-                        class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
+                        class="ginput required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
             </div>
             <div class="control-group ginput-block">
                 <label class="glabel " for="gemail"><?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?></label>
                 <input
-                        class="gemail"
+                        id="gemail"
                         type="email"
                         name="gemail"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?>"
 					<?php echo (! $user->guest ? 'value="' . $user->email . '"' :''); ?>
 					<?php echo (! $user->guest ? 'disabled="disabled"' :''); ?>
                         required="required"
-                        class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
+                        class="ginput required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
             </div>
             <div class="control-group ginput-block">
                 <label class="glabel " for="gtext"><?php echo Text::_('MOD_GCOMMENTS_TEXT_LABEL'); ?></label>
-                <textarea name="gtext" class="gtext" cols="30" rows="10"></textarea>
+                <textarea name="gtext" class="ginput" id="gtext" cols="30" rows="10"></textarea>
             </div>
-            <input type="hidden" name="context" value="<?php echo $context; ?>">
-            <input type="hidden" name="item_id" value="<?php echo $item_id; ?>">
+            <input type="hidden" class="ginput" name="context" value="<?php echo $context; ?>">
+            <input type="hidden" class="ginput" name="item_id" value="<?php echo $item_id; ?>">
             <?php if ($captcha === 1) : ?>
                 <div id="recaptcha"></div>
             <?php endif; ?>
-            <button class="gsubmit" type="submit"><?php echo Text::_('JSUBMIT'); ?></button>
+            <button id="gsubmit" type="submit"><?php echo Text::_('JSUBMIT'); ?></button>
         </form>
     </div>
 </div>

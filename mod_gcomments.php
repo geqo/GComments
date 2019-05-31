@@ -23,6 +23,7 @@ JLoader::register('ModGCommentsHelper', __DIR__ . '/helper.php');
 
 $user     = Factory::getUser();
 $input    = Factory::getApplication()->input;
+$document = Factory::getDocument();
 $layout   = $params->get('layout', 'default');
 $limit    = (int) $params->get('comments-limit', 10);
 $option   = $input->get('option', '');
@@ -34,13 +35,13 @@ if ($option === 'com_content' && $view === 'article') {
 }
 
 if (isset($attribs['context'])) {
-	$context  = $attribs['context'];
+    $context  = $attribs['context'];
 }
 if (isset($attribs['id'])) {
-	$item_id  = $attribs['id'];
+    $item_id  = $attribs['id'];
 }
 if ($context === '') {
-	return;
+    return;
 }
 
 
@@ -51,17 +52,20 @@ $pub_key  = '';
 $sec_key  = '';
 
 if ($captcha === 1) {
-	$pub_key = $params->get('public-key', null);
-	$sec_key = $params->get('secret-key', null);
+    $pub_key = $params->get('public-key', null);
+    $sec_key = $params->get('secret-key', null);
 }
 
 if (! $pub_key || ! $sec_key) {
-	$captcha === 0;
+    $captcha === 0;
 }
 
 $formLayout = 'form';
 
 $comments = ModGCommentsHelper::getComments($context, $item_id, $start, $limit);
 $total    = ModGCommentsHelper::getTotal($context, $item_id);
+$itemId = $item_id;
+$pubKey = $pub_key;
+$isAdmin = $user->get('isRoot') ? 'true' : 'false';
 
 require ModuleHelper::getLayoutPath('mod_gcomments', $layout);

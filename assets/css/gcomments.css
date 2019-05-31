@@ -22,11 +22,11 @@
 .gcomment-body {
     padding: 15px;
 }
-.gcomments-loader {
+#gcomments-loader {
     margin: 15px auto;
     text-align: center;
 }
-.gcomments-more {
+#gcomments-more {
     display: inline-block;
     padding: 10px;
     border: 1px solid #ccc;
@@ -38,7 +38,7 @@
 .gcomments-form-block {
     margin-top: 15px;
 }
-.gcomments-form {
+#gcomments-form {
     margin: 0;
 }
 .gerror {
@@ -50,7 +50,7 @@
 .glabel {
     display: block;
 }
-.gtext {
+#gtext {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 15px;
@@ -64,7 +64,7 @@
 #recaptcha {
     margin-top: 15px;
 }
-.gsubmit {
+#gsubmit {
     padding: 10px 15px;
     margin-top: 15px;
 }

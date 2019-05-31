@@ -27,6 +27,22 @@ if ($captcha === 1) {
 	HTMLHelper::script('https://www.google.com/recaptcha/api.js');
 }
 
+$document->addScriptDeclaration(sprintf('
+    var gComments = {
+        timeout: %d,
+        errorText: \'%s\',
+        submitButtonText: \'%s\',
+        loadMoreButtonText: \'%s\',
+        deleteButtonText: \'%s\',
+        limit: %d,
+        start: %d,
+        itemId: %d,
+        pubKey: \'%s\',
+        isAdmin: %s,
+        comment: false
+    };', 3000, 'Error', 'Submit', 'Load more', Text::_('MOD_GCOMMENTS_DELETE_COMMENT'),
+    $limit, ($start + $limit), $itemId, $pubKey, $isAdmin)
+);
 ?>
 
 <div class="gcomments" data-item-id="<?php echo $item_id ?>">
@@ -55,8 +71,8 @@ if ($captcha === 1) {
 </div>
 
 <?php if ($total > $limit) : ?>
-    <div class="gcomments-loader">
-        <a href="" class="gcomments-more" data-item-id="<?php echo $item_id ?>"><?php echo Text::_('MOD_GCOMMENTS_LOAD_MORE'); ?></a>
+    <div id="gcomments-loader">
+        <a href="" id="gcomments-more" data-item-id="<?php echo $item_id ?>"><?php echo Text::_('MOD_GCOMMENTS_LOAD_MORE'); ?></a>
     </div>
 <?php endif; ?>
 

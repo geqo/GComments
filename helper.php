@@ -233,12 +233,14 @@ class ModGCommentsHelper
 		$query = $db->getQuery(true);
 		$query
 			->select($db->qn([
+			    'id',
 				'user_name',
 				'creation_date',
 				'text',
 			]))
 			->from($db->qn('#__gcomments_comments'))
 			->where($db->qn('id') . ' = ' . $db->q($last));
+		$query->order('id DESC');
 		$db->setQuery($query);
 
 		return $db->loadObject();

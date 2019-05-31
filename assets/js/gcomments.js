@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var widget;
 
     var enableCaptcha = false;
@@ -8,29 +8,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (enableCaptcha) {
-        var interval = setInterval(function(){
-            if(window.grecaptcha){
-                var captcha = document.getElementById('recaptcha');
+        let interval = setInterval(function () {
+            if (window.grecaptcha) {
+                let captcha = document.getElementById('recaptcha');
                 widget = grecaptcha.render(captcha, {
-                    'sitekey' : pubKey,
-                    'theme' : 'light'
+                    'sitekey': pubKey,
+                    'theme': 'light'
                 });
                 clearInterval(interval);
             }
         }, 100);
     }
 
-    jQuery('.gcomments-more').on('click', function(e) {
-        e.preventDefault();
-        if (start < total) {
-            getData(start, jQuery(this).data('item-id'));
-            start += limit;
-        }
-    });
+    let loadMore = document.getElementById('gcomments-more');
 
-    jQuery('.gcomments-form').on('submit', function (e) {
+    if (loadMore) {
+        loadMore.onclick = function(e) {
+            e.preventDefault();
+            if (start < total) {
+                getData(start);
+                start += limit;
+            }
+        };
+    }
+
+    let gcommentsForm = document.getElementById('gcomments-form');
+    gcommentsForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        if (! enableCaptcha) {
+        if (!enableCaptcha) {
             return submitComment(this);
         }
         if (checkCaptcha() === true) {
@@ -39,10 +44,18 @@ document.addEventListener('DOMContentLoaded', function() {
             raiseError(Joomla.JText._('MOD_GCOMMENTS_CAPTCHA_VALIDATION_ERROR'));
         }
     });
+
+    Object.objectLength = function(obj) {
+        let size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
 });
 
 function checkCaptcha() {
-    var captcha = jQuery('#g-recaptcha-response');
+    let captcha = document.getElementById('g-recaptcha-response');
     try {
         return captcha.val() !== undefined && captcha.val() !== '';
     } catch (err) {
@@ -52,134 +65,190 @@ function checkCaptcha() {
 }
 
 function submitComment(form) {
-    jQuery.ajax({
-        data: jQuery(form).serialize(),
-        url: jQuery(form).attr('action'),
-        method: jQuery(form).attr('method'),
-        dataType: 'json',
-        beforeSend: function() {
-            hideError();
-            jQuery('.gsubmit').prop('disabled', true);
-        },
-        complete: function () {
-            jQuery('.gsubmit').prop('disabled', false);
-            if (window.grecaptcha) {
-                grecaptcha.reset();
-            }
-        },
-        success: function(data) {
-            if (data.success === true) {
-                jQuery(form).find('.gtext').val('');
-                addMessage(data.data, jQuery(form).data('item-id'));
-            } else {
-                raiseError(data.message);
-            }
+    let submit = document.getElementById('gsubmit'),
+        action = form.attributes.action.value,
+        inputs = document.getElementsByClassName('ginput'),
+        data = {};
+
+    for (let input in inputs) {
+        if (inputs.hasOwnProperty(input)) {
+            data[inputs[input].name] = inputs[input].value;
         }
+    }
+
+    sendRequest(action, data, function () {
+        submit.disabled = this.readyState !== 4;
+        if (window.grecaptcha) {
+            grecaptcha.reset();
+        }
+        if (this.response === false) {
+            raiseError('Unknown server error');
+            return;
+        }
+        if (this.response.success === false) {
+            raiseError(this.response.message);
+            return;
+        }
+        document.getElementById('gtext').value = '';
+        appendComment(this.response.data, true);
     });
 }
 
 function deleteComment(id) {
-    jQuery.ajax({
-        data: {
+    sendRequest(
+        'index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
+        {
             comment_id: id
-        },
-        type: 'POST',
-        url: 'index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
-        dataType: 'json',
-        success: function(data) {
-            if (data.success === true) {
-                jQuery('[data-comment-block="' + id +'"]').toggle();
-            } else {
-                console.log(data);
-                alert(data.message);
+        }, function () {
+            if (this.response === false) {
+                raiseError('Unknown server error');
+                return;
             }
+            if (this.response.success === false) {
+                raiseError(this.response.message);
+                return;
+            }
+
+            let commentBlock = document.querySelector('[data-comment-block="' + id + '"]');
+            commentBlock.style.display = 'none';
         }
-    });
+    );
 }
 
 function raiseError(error) {
-    var errorBlock = jQuery('.gerror');
-    jQuery(errorBlock).text(error);
-    jQuery(errorBlock).show();
+    let errorBlock = document.getElementsByClassName('gerror')[0];
+    errorBlock.innerText = error;
+    errorBlock.style.display = 'block';
 }
 
 function hideError() {
-    jQuery('.gerror').hide();
+    let errorBlock = document.getElementsByClassName('gerror')[0];
+    errorBlock.style.display = 'none';
 }
 
 function getData(lstart) {
+    let data = {
+        gcontext: context,
+        glimit: limit,
+        gitem_id: itemId,
+        gstart: lstart
+    };
 
-    jQuery.ajax({
-        data: {
-            gcontext: context,
-            glimit: limit,
-            gitem_id: itemId,
-            gstart: lstart
-        },
-        type: 'GET',
-        url: 'index.php?option=com_ajax&format=json&module=gcomments&method=getComments',
-        dataType: 'json',
-        success: function(data) {
-            if (data.success === true) {
-                makeComments(data.data, itemId);
-                if (start >= total) {
-                    jQuery('.gcomments-loader').hide();
-                }
+    sendRequest(
+        'index.php?option=com_ajax&format=json&module=gcomments&method=getComments',
+        data,
+        function () {
+            if (this.response === false) {
+                raiseError('Unknown server error');
+                return;
+            }
+            if (this.response.success === false) {
+                raiseError(this.response.message);
+                return;
+            }
+
+            makeComments(this.response.data);
+
+            if (start >= total) {
+                document.getElementById('gcomments-loader').style.display = 'none';
             }
         }
-    });
+    );
 }
 
-function makeComments(data, itemId) {
-    var messages = [];
-    jQuery.each(data, function(index, value) {
-        messages.unshift(value);
-    });
-    jQuery.each(messages, function(index, value) {
-        jQuery('.gcomments[data-item-id="' + itemId + '"]').append(
-            '<div class="gcomment" data-comment-block="' + value.id + '">' +
-            '<div class="gcomment-head">' +
-            '<span class="gcomment-username">' +
-            value.user_name +
-            '</span>' +
-            '<span class="gcomment-date">' +
-            value.creation_date +
-            '</span>' +
-            '</div>' +
-            '<div class="gcomment-body">' +
-            value.text +
-            '</div>' + getAction(value.id) +
-            '</div>'
-        );
-    })
+function makeComments(data) {
+    let messages = [];
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            messages.unshift(data[key]);
+        }
+    }
+    for (let key in messages) {
+        if (messages.hasOwnProperty(key)) {
+            appendComment(messages[key], false);
+        }
+    }
 }
 
-function addMessage(data, item_id) {
-    let message = getBlock(data);
-    jQuery('.gcomments[data-item-id="' + item_id + '"]').prepend(message);
+function sendRequest(url, data, callback) {
+    let xhr = new XMLHttpRequest(), queryContent = '', i = 0, result = false;
+
+    for (let key in data) {
+        if (data.hasOwnProperty(key)) {
+            queryContent += key + '=' + data[key];
+            if (queryContent.length > 0 && i < (Object.objectLength(data) - 1)) {
+                queryContent += '&';
+            }
+            i++;
+        }
+    }
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.timeout = 3000;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (typeof callback === 'function') {
+                callback.apply(xhr);
+            }
+        }
+    };
+    xhr.send(queryContent);
+
+}
+
+function processResponse(response) {
+
+}
+
+function throwError(error) {
+
+}
+
+function appendComment(data, prepend) {
+    let gCommentsBlock = document.querySelector('[data-item-id="' + itemId + '"]');
+
+    if (prepend) {
+        gCommentsBlock.prepend(getBlock(data))
+    } else {
+        gCommentsBlock.appendChild(getBlock(data));
+    }
 }
 
 function getBlock(data) {
-    return '<div class="gcomment">' +
-        '<div class="gcomment-head">' +
-        '<span class="gcomment-username">' +
-        data.user_name +
-        '</span>' +
-        '<span class="gcomment-date">' +
-        data.creation_date +
-        '</span>' +
-        '</div>' +
-        '<div class="gcomment-body">' +
-        data.text +
-        '</div>' +
-        '</div>';
-}
+    let gComment         = document.createElement('div'),
+        gCommentHead     = document.createElement('div'),
+        gCommentUsername = document.createElement('span'),
+        gCommentDate     = document.createElement('span'),
+        gCommentBody     = document.createElement('div');
+    gComment.dataset.commentBlock = data.id;
+    gComment.className         = 'gcomment';
+    gCommentHead.className     = 'gcomment-head';
+    gCommentUsername.className = 'gcomment-username';
+    gCommentDate.className     = 'gcomment-date';
+    gCommentBody.className     = 'gcomment-body';
+    gCommentUsername.innerText = data.user_name;
+    gCommentDate.innerText     = data.creation_date;
+    gCommentBody.innerHTML     = data.text;
+    gCommentHead.appendChild(gCommentUsername);
+    gCommentHead.appendChild(gCommentDate);
+    gComment.appendChild(gCommentHead);
+    gComment.appendChild(gCommentBody);
 
-function getAction(id) {
     if (isAdmin) {
-        return '<div class="gcomment-action">' +
-            '<button class="gcomment-delete" onclick="deleteComment(this.dataset.comment)" data-comment="' + id + '">' + deleteButton + '</button>' +
-            '</div>';
+        let gCommentAction = document.createElement('div'),
+            gCommentActionDelete = document.createElement('button');
+        gCommentAction.className = 'gcomment-action';
+        gCommentActionDelete.className = 'gcomment-delete';
+        gCommentActionDelete.dataset.comment = data.id;
+        gCommentActionDelete.innerHTML = gComments.deleteButtonText;
+        gCommentActionDelete.onclick = function() {
+            deleteComment(data.id);
+        };
+        gCommentAction.appendChild(gCommentActionDelete);
+        gComment.appendChild(gCommentAction);
     }
-    return '';
+
+    return gComment;
 }
