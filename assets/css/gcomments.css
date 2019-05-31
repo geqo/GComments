@@ -35,10 +35,10 @@
     border-radius: 3px;
     text-decoration: none;
 }
-.gcomments-form {
+.gcomments-form-block {
     margin-top: 15px;
 }
-#gcomments-form {
+.gcomments-form {
     margin: 0;
 }
 .gerror {
@@ -50,7 +50,7 @@
 .glabel {
     display: block;
 }
-#gtext {
+.gtext {
     width: 100%;
     box-sizing: border-box;
     padding: 10px 15px;
@@ -64,7 +64,7 @@
 #recaptcha {
     margin-top: 15px;
 }
-#gsubmit {
+.gsubmit {
     padding: 10px 15px;
     margin-top: 15px;
 }

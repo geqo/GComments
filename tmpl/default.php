@@ -29,7 +29,7 @@ if ($captcha === 1) {
 
 ?>
 
-<div class="gcomments">
+<div class="gcomments" data-item-id="<?php echo $item_id ?>">
 	<?php if (isset($comments) || $comments)  : ?>
 		<?php foreach ($comments as $key => $comment) : ?>
             <div class="gcomment" data-comment-block="<?php echo $comment['id'] ?>">
@@ -56,7 +56,7 @@ if ($captcha === 1) {
 
 <?php if ($total > $limit) : ?>
     <div class="gcomments-loader">
-        <a href="" class="gcomments-more"><?php echo Text::_('MOD_GCOMMENTS_LOAD_MORE'); ?></a>
+        <a href="" class="gcomments-more" data-item-id="<?php echo $item_id ?>"><?php echo Text::_('MOD_GCOMMENTS_LOAD_MORE'); ?></a>
     </div>
 <?php endif; ?>
 

@@ -20,25 +20,22 @@ defined('_JEXEC') or die;
 
 Text::script('MOD_GCOMMENTS_CAPTCHA_VALIDATION_ERROR');
 Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
+
+$moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_COMMENT');
+
 ?>
 
-<div class="gcomment gcomments-form">
+<div class="gcomment gcomments-form-block">
     <div class="gcomment-head">
-		<?php
-		if ($module->showtitle) {
-			echo $module->title;
-		} else {
-			echo Text::_('MOD_GCOMMENTS_ADD_COMMENT');
-		}
-		?>
+		<?php echo $moduleTitle ?>
     </div>
     <div class="gerror"></div>
     <div class="gcomment-body">
-        <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" method="post" id="gcomments-form">
+        <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" class="gcomments-form">
             <div class="control-group ginput-block">
                 <label class="glabel " for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
                 <input
-                        id="gusername"
+                        class="gusername"
                         type="text"
                         name="gusername"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?>"
@@ -51,7 +48,7 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
             <div class="control-group ginput-block">
                 <label class="glabel " for="gemail"><?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?></label>
                 <input
-                        id="gemail"
+                        class="gemail"
                         type="email"
                         name="gemail"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?>"
@@ -63,14 +60,14 @@ Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
             </div>
             <div class="control-group ginput-block">
                 <label class="glabel " for="gtext"><?php echo Text::_('MOD_GCOMMENTS_TEXT_LABEL'); ?></label>
-                <textarea name="gtext" id="gtext" cols="30" rows="10"></textarea>
+                <textarea name="gtext" class="gtext" cols="30" rows="10"></textarea>
             </div>
             <input type="hidden" name="context" value="<?php echo $context; ?>">
             <input type="hidden" name="item_id" value="<?php echo $item_id; ?>">
             <?php if ($captcha === 1) : ?>
                 <div id="recaptcha"></div>
             <?php endif; ?>
-            <button id="gsubmit" type="submit"><?php echo Text::_('JSUBMIT'); ?></button>
+            <button class="gsubmit" type="submit"><?php echo Text::_('JSUBMIT'); ?></button>
         </form>
     </div>
 </div>

@@ -28,22 +28,20 @@ $limit    = (int) $params->get('comments-limit', 10);
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');
 
-if ($option !== 'com_content' && $view !== 'article') {
-	// If module was rendered not by default way, you need to provide two variables
-	// context - com_content.article (example)
-	// id - item id
-	if (isset($attribs['context'])) {
-		$context  = $attribs['context'];
-	}
-	if (isset($attribs['id'])) {
-		$item_id  = $attribs['id'];
-	}
-	if ($context === '') {
-		return;
-	}
-} else {
-	$context = 'com_content.article';
+if ($option === 'com_content' && $view === 'article') {
+    $context = 'com_content.article';
 }
+
+if (isset($attribs['context'])) {
+	$context  = $attribs['context'];
+}
+if (isset($attribs['id'])) {
+	$item_id  = $attribs['id'];
+}
+if ($context === '') {
+	return;
+}
+
 
 $item_id  = (int) $item_id ? : $input->get('id', 0);
 $start    = 0;

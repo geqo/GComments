@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', function() {
     jQuery('.gcomments-more').on('click', function(e) {
         e.preventDefault();
         if (start < total) {
-            getData(start);
+            getData(start, jQuery(this).data('item-id'));
             start += limit;
         }
     });
 
-    jQuery('#gcomments-form').on('submit', function (e) {
+    jQuery('.gcomments-form').on('submit', function (e) {
         e.preventDefault();
         if (! enableCaptcha) {
             return submitComment(this);
@@ -59,18 +59,18 @@ function submitComment(form) {
         dataType: 'json',
         beforeSend: function() {
             hideError();
-            jQuery('#gsubmit').prop('disabled', true);
+            jQuery('.gsubmit').prop('disabled', true);
         },
         complete: function () {
-            jQuery('#gsubmit').prop('disabled', false);
+            jQuery('.gsubmit').prop('disabled', false);
             if (window.grecaptcha) {
                 grecaptcha.reset();
             }
         },
         success: function(data) {
             if (data.success === true) {
-                jQuery('#gtext').val('');
-                addMessage(data.data);
+                jQuery(form).find('.gtext').val('');
+                addMessage(data.data, jQuery(form).data('item-id'));
             } else {
                 raiseError(data.message);
             }
@@ -108,6 +108,7 @@ function hideError() {
 }
 
 function getData(lstart) {
+
     jQuery.ajax({
         data: {
             gcontext: context,
@@ -120,7 +121,7 @@ function getData(lstart) {
         dataType: 'json',
         success: function(data) {
             if (data.success === true) {
-                makeComments(data.data);
+                makeComments(data.data, itemId);
                 if (start >= total) {
                     jQuery('.gcomments-loader').hide();
                 }
@@ -129,13 +130,13 @@ function getData(lstart) {
     });
 }
 
-function makeComments(data) {
+function makeComments(data, itemId) {
     var messages = [];
     jQuery.each(data, function(index, value) {
         messages.unshift(value);
     });
     jQuery.each(messages, function(index, value) {
-        jQuery('.gcomments').append(
+        jQuery('.gcomments[data-item-id="' + itemId + '"]').append(
             '<div class="gcomment" data-comment-block="' + value.id + '">' +
             '<div class="gcomment-head">' +
             '<span class="gcomment-username">' +
@@ -153,9 +154,9 @@ function makeComments(data) {
     })
 }
 
-function addMessage(data) {
-    var message = getBlock(data);
-    jQuery('.gcomments').prepend(message);
+function addMessage(data, item_id) {
+    let message = getBlock(data);
+    jQuery('.gcomments[data-item-id="' + item_id + '"]').prepend(message);
 }
 
 function getBlock(data) {
