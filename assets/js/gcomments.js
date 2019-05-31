@@ -84,7 +84,7 @@ function deleteComment(id) {
             comment_id: id
         },
         type: 'POST',
-        url: '/index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
+        url: 'index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
         dataType: 'json',
         success: function(data) {
             if (data.success === true) {

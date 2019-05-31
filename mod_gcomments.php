@@ -27,6 +27,7 @@ $layout   = $params->get('layout', 'default');
 $limit    = (int) $params->get('comments-limit', 10);
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');
+$item_id  = 0;
 
 if ($option === 'com_content' && $view === 'article') {
     $context = 'com_content.article';
