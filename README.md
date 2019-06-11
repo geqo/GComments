@@ -6,7 +6,6 @@ Install just as joomla module
 ## Minimal requirements
  - Php 5.6
  - Joomla 3.7
- - jQuery
 ## Using
 #### Default
 Install, config, enable for position.
