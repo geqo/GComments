@@ -57,6 +57,7 @@ class ModGCommentsHelper
 	public static function getComments($context, $id, $start = 0, $limit = 10)
 	{
 		$db = Factory::getDbo();
+        $params = self::getParams();
 
 		$query = $db->getQuery(true);
 		$query
@@ -67,8 +68,13 @@ class ModGCommentsHelper
 			->from($db->qn('#__gcomments_comments'))
 			->where($db->qn('context') . ' = ' . $db->q($context))
 			->where($db->qn('bind_id') . ' = ' . $db->q($id))
-			->where($db->qn('deleted') . ' = 0')
-			->order($db->qn('creation_date') . ' DESC');
+			->where($db->qn('deleted') . ' = 0');
+
+        if ($params->get('comments-order', 0)) {
+            $query->order($db->qn('id') . ' ASC');
+        } else {
+            $query->order($db->qn('id') . ' DESC');
+        }
 
 		$db->setQuery($query, $start, $limit);
 

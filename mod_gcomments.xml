@@ -4,10 +4,10 @@
 	<author>Alex White</author>
 	<creationDate>24 September 2018</creationDate>
 	<copyright>All rights reserved.</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<license>GNU AGPL v3</license>
 	<authorEmail>joomla@geqo.ru</authorEmail>
 	<authorUrl>https://geqo.ru/joomla</authorUrl>
-	<version>0.10.0</version>
+	<version>0.11.0</version>
 	<description>Lightweight comments module for whatever you want</description>
 	<files>
 		<filename module="mod_gcomments">mod_gcomments.php</filename>
@@ -51,6 +51,16 @@
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+				</field>
+				<field
+						name="comments-order"
+						type="radio"
+						label="MOD_GCOMMENTS_ORDER_LABEL"
+						description="MOD_GCOMMENTS_ORDER_DESCRIPTION"
+						default="0"
+				>
+					<option value="0">MOD_GCOMMENTS_ORDER_ASC</option>
+					<option value="1">MOD_GCOMMENTS_ORDER_DESC</option>
 				</field>
 				<field
 						name="comments-limit"
