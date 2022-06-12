@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var enableCaptcha = false;
 
-    if (pubKey !== '') {
+    if (gcomments_pubKey !== '') {
         enableCaptcha = true;
     }
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if(window.grecaptcha){
                 var captcha = document.getElementById('recaptcha');
                 widget = grecaptcha.render(captcha, {
-                    'sitekey' : pubKey,
+                    'sitekey' : gcomments_pubKey,
                     'theme' : 'light'
                 });
                 clearInterval(interval);
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     jQuery('.gcomments-more').on('click', function(e) {
         e.preventDefault();
-        if (start < total) {
-            getData(start, jQuery(this).data('item-id'));
-            start += limit;
+        if (gcomments_start < gcomments_total) {
+            getData(gcomments_start, jQuery(this).data('item-id'));
+            gcomments_start += gcomments_limit;
         }
     });
 
@@ -111,9 +111,9 @@ function getData(lstart) {
 
     jQuery.ajax({
         data: {
-            gcontext: context,
-            glimit: limit,
-            gitem_id: itemId,
+            gcontext: gcomments_context,
+            glimit: gcomments_limit,
+            gitem_id: gcomments_itemId,
             gstart: lstart
         },
         type: 'GET',
@@ -121,8 +121,8 @@ function getData(lstart) {
         dataType: 'json',
         success: function(data) {
             if (data.success === true) {
-                makeComments(data.data, itemId);
-                if (start >= total) {
+                makeComments(data.data, gcomments_itemId);
+                if (gcomments_start >= gcomments_total) {
                     jQuery('.gcomments-loader').hide();
                 }
             }
@@ -156,7 +156,11 @@ function makeComments(data, itemId) {
 
 function addMessage(data, item_id) {
     let message = getBlock(data);
-    jQuery('.gcomments[data-item-id="' + item_id + '"]').prepend(message);
+    if (! gcomments_order) {
+        jQuery('.gcomments[data-item-id="' + item_id + '"]').prepend(message);
+    } else {
+        jQuery('.gcomments[data-item-id="' + item_id + '"]').append(message);
+    }
 }
 
 function getBlock(data) {
@@ -176,9 +180,9 @@ function getBlock(data) {
 }
 
 function getAction(id) {
-    if (isAdmin) {
+    if (gcomments_isAdmin) {
         return '<div class="gcomment-action">' +
-            '<button class="gcomment-delete" onclick="deleteComment(this.dataset.comment)" data-comment="' + id + '">' + deleteButton + '</button>' +
+            '<button class="gcomment-delete" onclick="deleteComment(this.dataset.comment)" data-comment="' + id + '">' + gcomments_deleteButton + '</button>' +
             '</div>';
     }
     return '';

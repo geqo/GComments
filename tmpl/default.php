@@ -70,12 +70,13 @@ if ($formLayout !== 'none' && ! $formOnTop) {
 ?>
 
 <script>
-    var limit = <?php echo $limit; ?>,
-        itemId = '<?php echo $item_id; ?>',
-        context = '<?php echo $context; ?>',
-        start = <?php echo ($start + $limit); ?>,
-        total = <?php echo $total; ?>,
-        pubKey = '<?php echo $pub_key ?>',
-        deleteButton = '<?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?>';
-        isAdmin = <?php echo $user->get('isRoot') ? 'true' : 'false' ?>;
+    var gcomments_limit = <?php echo $limit; ?>,
+        gcomments_itemId = '<?php echo $item_id; ?>',
+        gcomments_context = '<?php echo $context; ?>',
+        gcomments_start = <?php echo ($start + $limit); ?>,
+        gcomments_total = <?php echo $total; ?>,
+        gcomments_pubKey = '<?php echo $pub_key ?>',
+        gcomments_deleteButton = '<?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?>',
+        gcomments_isAdmin = <?php echo $user->get('isRoot') ? 'true' : 'false' ?>,
+        gcomments_order = <?php echo $order; ?>;
 </script>

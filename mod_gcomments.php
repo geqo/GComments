@@ -24,6 +24,7 @@ JLoader::register('ModGCommentsHelper', __DIR__ . '/helper.php');
 $user     = Factory::getUser();
 $input    = Factory::getApplication()->input;
 $formOnTop= $params->get('form-on-top', 0);
+$order    = $params->get('comments-order', 0);
 $layout   = $params->get('layout', 'default');
 $limit    = (int) $params->get('comments-limit', 10);
 $option   = $input->get('option', '');
