@@ -21,14 +21,16 @@ defined('_JEXEC') or die;
 Text::script('MOD_GCOMMENTS_CAPTCHA_VALIDATION_ERROR');
 Text::script('MOD_GCOMMENTS_EMPTY_FORM_ERROR');
 
-$moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_COMMENT');
+$formTitle = $params->get('form-text', '');
 
 ?>
 
 <div class="gcomment gcomments-form-block">
+    <?php if ($formTitle) : ?>
     <div class="gcomment-head">
-        <?php echo $moduleTitle ?>
+        <?php echo Text::_($formTitle) ?>
     </div>
+    <?php endif; ?>
     <div class="gerror"></div>
     <div class="gcomment-body">
         <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" class="gcomments-form">

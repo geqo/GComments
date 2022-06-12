@@ -7,7 +7,7 @@
 	<license>GNU AGPL v3</license>
 	<authorEmail>joomla@geqo.ru</authorEmail>
 	<authorUrl>https://geqo.ru/joomla</authorUrl>
-	<version>0.12.2</version>
+	<version>0.13.0</version>
 	<description>Lightweight comments module for whatever you want</description>
 	<files>
 		<filename module="mod_gcomments">mod_gcomments.php</filename>
@@ -41,6 +41,13 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+						name="form-text"
+						type="editor"
+						label="MOD_GCOMMENTS_FORM_TITLE_LABEL"
+						description="MOD_GCOMMENTS_FORM_TITLE_DESC"
+						filter="raw"
+				/>
 				<field
 						name="delete-comments"
 						type="radio"
