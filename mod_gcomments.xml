@@ -80,6 +80,6 @@
 		</fields>
 	</config>
 	<updateservers>
-		<server type="extension" priority="1" name="ModGcomments update server">https://geqo.ru/joomla/mod_gcomments/updates/gcomments.xml</server>
+		<server type="extension" priority="1" name="ModGcomments update server">https://geqo.space/joomla/mod_gcomments/updates/gcomments.xml</server>
 	</updateservers>
 </extension>
