@@ -251,6 +251,7 @@ class ModGCommentsHelper
 				'user_name',
 				'creation_date',
 				'text',
+                'id'
 			]))
 			->from($db->qn('#__gcomments_comments'))
 			->where($db->qn('id') . ' = ' . $db->q($last));

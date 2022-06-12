@@ -175,7 +175,7 @@ function getBlock(data) {
         '</div>' +
         '<div class="gcomment-body">' +
         data.text +
-        '</div>' +
+        '</div>' + getAction(data.id) +
         '</div>';
 }
 
