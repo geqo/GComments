@@ -24,9 +24,12 @@ HTMLHelper::stylesheet(Uri::base() . '/media/mod_gcomments/css/gcomments.css');
 HTMLHelper::script(Uri::base() . '/media/mod_gcomments/js/gcomments.js');
 
 if ($captcha === 1) {
-	HTMLHelper::script('https://www.google.com/recaptcha/api.js');
+    HTMLHelper::script('https://www.google.com/recaptcha/api.js');
 }
 
+if ($formOnTop) {
+    include __DIR__ . '/../layouts/' . $formLayout . '.php';
+}
 ?>
 
 <div class="gcomments" data-item-id="<?php echo $item_id ?>">
@@ -61,7 +64,7 @@ if ($captcha === 1) {
 <?php endif; ?>
 
 <?php
-if ($formLayout !== 'none') {
+if ($formLayout !== 'none' && ! $formOnTop) {
 	include __DIR__ . '/../layouts/' . $formLayout . '.php';
 }
 ?>
