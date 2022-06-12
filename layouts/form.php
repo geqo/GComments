@@ -27,7 +27,7 @@ $moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_
 
 <div class="gcomment gcomments-form-block">
     <div class="gcomment-head">
-		<?php echo $moduleTitle ?>
+        <?php echo $moduleTitle ?>
     </div>
     <div class="gerror"></div>
     <div class="gcomment-body">
@@ -39,8 +39,8 @@ $moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_
                         type="text"
                         name="gusername"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?>"
-					<?php echo (! $user->guest ? 'value="' . $user->username . '"' :''); ?>
-					<?php echo (! $user->guest ? 'disabled="disabled"' :''); ?>
+                        <?php echo (! $user->guest ? 'value="' . $user->username . '"' :''); ?>
+                        <?php echo (! $user->guest && ! $user->get('isRoot') ? 'disabled="disabled"' :''); ?>
                         required="required"
                         class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
@@ -52,8 +52,8 @@ $moduleTitle = $module->showtitle ? $module->title : Text::_('MOD_GCOMMENTS_ADD_
                         type="email"
                         name="gemail"
                         placeholder="<?php echo Text::_('MOD_GCOMMENTS_EMAIL_LABEL'); ?>"
-					<?php echo (! $user->guest ? 'value="' . $user->email . '"' :''); ?>
-					<?php echo (! $user->guest ? 'disabled="disabled"' :''); ?>
+                        <?php echo (! $user->guest ? 'value="' . $user->email . '"' :''); ?>
+                        <?php echo (! $user->guest && ! $user->get('isRoot') ? 'disabled="disabled"' :''); ?>
                         required="required"
                         class="required<?php echo (! $user->guest ? ' disabled' :''); ?>"
                 >
