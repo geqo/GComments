@@ -94,7 +94,8 @@ class ModGCommentsHelper
 	{
 		$user = Factory::getUser();
 		$input = Factory::getApplication()->input;
-		$id = (int) $input->getInt('comment_id', 0);
+		$id = $input->getInt('comment_id', 0);
+        $params = self::getParams();
 
 		if (
 			$user->guest ||
@@ -104,7 +105,7 @@ class ModGCommentsHelper
 			throw new Exception('Access denied!');
 		}
 
-		return self::removeComment($id);
+		return self::removeComment($id, $params->get('delete-comments', 0));
 	}
 
 	/**
@@ -114,13 +115,21 @@ class ModGCommentsHelper
 	 *
 	 * @since 0.8.2
 	 */
-	private static function removeComment($id)
+	private static function removeComment($id, $hardDelete)
 	{
 		$db = Factory::getDbo();
-		$comment = new stdClass();
-		$comment->id = $id;
-		$comment->deleted = 1;
-		return $db->updateObject('#__gcomments_comments',$comment, 'id');
+        if ($hardDelete) {
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__gcomments_comments'))
+                ->where($db->qn('id') . ' = ' . (int) $id);
+            $db->setQuery($query);
+            return (bool) $db->execute();
+        } else {
+            $comment = new stdClass();
+            $comment->id = $id;
+            $comment->deleted = 1;
+            return $db->updateObject('#__gcomments_comments',$comment, 'id');
+        }
 	}
 
 	/**
