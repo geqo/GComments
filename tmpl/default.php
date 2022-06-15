@@ -78,5 +78,6 @@ if ($formLayout !== 'none' && ! $formOnTop) {
         gcomments_pubKey = '<?php echo $pub_key ?>',
         gcomments_deleteButton = '<?php echo Text::_('MOD_GCOMMENTS_DELETE_COMMENT') ?>',
         gcomments_isAdmin = <?php echo $user->get('isRoot') ? 'true' : 'false' ?>,
-        gcomments_order = <?php echo $order; ?>;
+        gcomments_order = <?php echo $order; ?>,
+        gcomments_base = '<?php echo \Joomla\CMS\Uri\Uri::base(); ?>';
 </script>

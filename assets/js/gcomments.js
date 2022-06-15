@@ -84,7 +84,7 @@ function deleteComment(id) {
             comment_id: id
         },
         type: 'POST',
-        url: '../index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
+        url: gcomments_base + 'index.php?option=com_ajax&format=json&module=gcomments&method=removeComment',
         dataType: 'json',
         success: function(data) {
             if (data.success === true) {
@@ -117,7 +117,7 @@ function getData(lstart) {
             gstart: lstart
         },
         type: 'GET',
-        url: '../index.php?option=com_ajax&format=json&module=gcomments&method=getComments',
+        url: gcomments_base + 'index.php?option=com_ajax&format=json&module=gcomments&method=getComments',
         dataType: 'json',
         success: function(data) {
             if (data.success === true) {

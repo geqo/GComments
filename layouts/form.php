@@ -33,7 +33,7 @@ $formTitle = $params->get('form-text', '');
     <?php endif; ?>
     <div class="gerror"></div>
     <div class="gcomment-body">
-        <form action="/index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" class="gcomments-form">
+        <form action="<?php echo \Joomla\CMS\Uri\Uri::base(); ?>index.php?option=com_ajax&format=json&module=gcomments&method=addComment" data-item-id="<?php echo $item_id; ?>" method="post" class="gcomments-form">
             <div class="control-group ginput-block">
                 <label class="glabel " for="gusername"><?php echo Text::_('MOD_GCOMMENTS_USERNAME_LABEL'); ?></label>
                 <input
